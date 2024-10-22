@@ -1,0 +1,95 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Cabang</title>
+</head>
+<body>
+    <script>
+        // Set untuk menyimpan nama-nama cabang unik
+        const namaCabangSet = new Set();
+
+        // Class Bank dengan enkapsulasi
+        class Bank {
+            #namaBank;        // Private property untuk namaBank
+            #kantorCabang;    // Private property untuk daftar kantor cabang
+
+            constructor(namaBank) {
+                this.#namaBank = namaBank;
+                this.#kantorCabang = [];  // Array untuk menyimpan daftar kantor cabang
+            }
+
+            // Getter untuk namaBank
+            getNamaBank() {
+                return this.#namaBank;
+            }
+
+            // Setter untuk namaBank
+            setNamaBank(namaBaru) {
+                if (!namaBaru) {
+                    throw new Error('Nama bank tidak boleh kosong.');
+                }
+                this.#namaBank = namaBaru;
+            }
+
+            // Method untuk menambahkan kantor cabang dengan validasi
+            tambahCabang(namaCabang) {
+                // Validasi: Cek apakah nama cabang sudah ada di Set
+                if (namaCabangSet.has(namaCabang)) {
+                    console.info(`Kantor cabang "${namaCabang}" sudah ada!`);
+                } else {
+                    this.#kantorCabang.push(namaCabang);
+                    namaCabangSet.add(namaCabang); // Tambahkan ke Set
+                    console.info(`Kantor cabang "${namaCabang}" berhasil ditambahkan.`);
+                }
+            }
+
+            // Method untuk menghapus kantor cabang
+            hapusCabang(namaCabang) {
+                const index = this.#kantorCabang.indexOf(namaCabang);
+                if (index !== -1) {
+                    this.#kantorCabang.splice(index, 1);
+                    namaCabangSet.delete(namaCabang); // Hapus dari Set
+                    console.info(`Kantor cabang "${namaCabang}" berhasil dihapus.`);
+                } else {
+                    console.info(`Kantor cabang "${namaCabang}" tidak ditemukan.`);
+                }
+            }
+
+            // Method untuk menampilkan semua kantor cabang
+            tampilkanSemuaCabang() {
+                console.info(`Daftar Kantor Cabang ${this.#namaBank}:`);
+                if (this.#kantorCabang.length > 0) {
+                    this.#kantorCabang.forEach((cabang, index) => {
+                        console.info(`${index + 1}. ${cabang}`);
+                    });
+                } else {
+                    console.info('Tidak ada kantor cabang.');
+                }
+            }
+        }
+
+        // Membuat instance dari class Bank
+        const bankABC = new Bank('Bank ABC');
+
+        // Menambahkan cabang
+        bankABC.tambahCabang('Cabang Jakarta');
+        bankABC.tambahCabang('Cabang Surabaya');
+        bankABC.tambahCabang('Cabang Bandung');
+
+        // Mencoba menambahkan cabang yang sudah ada
+        bankABC.tambahCabang('Cabang Jakarta'); // Akan menampilkan pesan bahwa cabang sudah ada
+
+        // Menampilkan semua cabang yang telah ditambahkan
+        bankABC.tampilkanSemuaCabang();
+
+        // Menghapus cabang
+        bankABC.hapusCabang('Cabang Surabaya');
+
+        // Menampilkan cabang setelah penghapusan
+        bankABC.tampilkanSemuaCabang();
+
+    </script>
+</body>
+</html>

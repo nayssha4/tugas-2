@@ -1,0 +1,77 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hitung</title>
+</head>
+<body>
+    <script>
+        class PersegiPanjang {
+            // Private properties
+            #panjang;
+            #lebar;
+
+            constructor(panjang, lebar) {
+                this.#panjang = panjang;
+                this.#lebar = lebar;
+            }
+
+            // Getter dan Setter untuk panjang
+            get panjang() {
+                return this.#panjang;
+            }
+
+            set panjang(panjangBaru) {
+                if (panjangBaru <= 0) {
+                    throw new Error('Panjang harus lebih besar dari 0.');
+                }
+                this.#panjang = panjangBaru;
+            }
+
+            // Getter dan Setter untuk lebar
+            get lebar() {
+                return this.#lebar;
+            }
+
+            set lebar(lebarBaru) {
+                if (lebarBaru <= 0) {
+                    throw new Error('Lebar harus lebih besar dari 0.');
+                }
+                this.#lebar = lebarBaru;
+            }
+
+            // Method untuk menghitung luas
+            hitungLuas() {
+                return this.#panjang * this.#lebar;
+            }
+
+            // Method untuk menghitung keliling
+            hitungKeliling() {
+                return 2 * (this.#panjang + this.#lebar);
+            }
+        }
+
+        // Membuat objek PersegiPanjang
+        const persegiPanjang1 = new PersegiPanjang(10, 5);
+
+        // Menggunakan getter untuk mendapatkan nilai panjang dan lebar
+        console.log(`Panjang: ${persegiPanjang1.panjang}`);
+        console.log(`Lebar: ${persegiPanjang1.lebar}`);
+
+        // Menggunakan method untuk menghitung luas dan keliling
+        console.log(`Luas: ${persegiPanjang1.hitungLuas()}`);
+        console.log(`Keliling: ${persegiPanjang1.hitungKeliling()}`);
+
+        // Menggunakan setter untuk mengubah nilai panjang dan lebar
+        persegiPanjang1.panjang = 15;
+        persegiPanjang1.lebar = 7;
+
+        // Tampilkan nilai panjang, lebar, luas, dan keliling yang baru
+        console.log(`Panjang baru: ${persegiPanjang1.panjang}`);
+        console.log(`Lebar baru: ${persegiPanjang1.lebar}`);
+        console.log(`Luas baru: ${persegiPanjang1.hitungLuas()}`);
+        console.log(`Keliling baru: ${persegiPanjang1.hitungKeliling()}`);
+    </script>
+</body>
+</html>

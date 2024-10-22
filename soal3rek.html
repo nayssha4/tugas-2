@@ -1,0 +1,98 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekening</title>
+</head>
+<body>
+    <script>
+        // Set untuk menyimpan nomor rekening yang unik
+        const nomorRekeningSet = new Set();
+
+        // Definisikan class RekeningBank dengan enkapsulasi
+        class RekeningBank {
+            #nomorRekening;  // Private property untuk nomor rekening
+            #saldo;          // Private property untuk saldo
+
+            constructor(nomorRekening, saldo) {
+                // Validasi: Cek apakah nomor rekening sudah ada
+                if (nomorRekeningSet.has(nomorRekening)) {
+                    throw new Error('Nomor rekening sudah ada, harus unik!');
+                }
+
+                // Jika belum ada, tambahkan ke Set
+                nomorRekeningSet.add(nomorRekening);
+                this.#nomorRekening = nomorRekening;
+                this.#saldo = saldo;
+            }
+
+            // Getter untuk nomor rekening
+            getNomorRekening() {
+                return this.#nomorRekening;
+            }
+
+            // Getter untuk saldo
+            getSaldo() {
+                return this.#saldo;
+            }
+
+            // Setter untuk saldo
+            setSaldo(saldoBaru) {
+                if (saldoBaru < 0) {
+                    throw new Error('Saldo tidak bisa kurang dari 0.');
+                }
+                this.#saldo = saldoBaru;
+            }
+
+            // Method untuk setor uang
+            setorUang(jumlah) {
+                this.setSaldo(this.#saldo + jumlah);
+                console.log(`Berhasil setor Rp.${jumlah}. Saldo sekarang: Rp.${this.#saldo}`);
+            }
+
+            // Method untuk tarik uang
+            tarikUang(jumlah) {
+                if (jumlah > this.#saldo) {
+                    console.log("Saldo tidak mencukupi untuk penarikan!");
+                } else {
+                    this.setSaldo(this.#saldo - jumlah);
+                    console.log(`Berhasil tarik Rp.${jumlah}. Saldo sekarang: Rp.${this.#saldo}`);
+                }
+            }
+
+            // Method untuk menampilkan saldo
+            tampilkanSaldo() {
+                console.log(`Saldo di rekening ${this.#nomorRekening}: Rp.${this.#saldo}`);
+            }
+        }
+
+        // Menggunakan try-catch untuk menangani error jika nomor rekening duplikat
+        try {
+            // Membuat 3 objek RekeningBank
+            const rekening1 = new RekeningBank("5677356", 500000);
+            const rekening2 = new RekeningBank("7331273", 1000000);
+            const rekening3 = new RekeningBank("1556527", 750000);
+
+            // Melakukan transaksi pada setiap rekening
+            rekening1.setorUang(200000);   // Setor uang ke rekening1
+            rekening1.tarikUang(150000);   // Tarik uang dari rekening1
+            rekening1.tampilkanSaldo();    // Tampilkan saldo rekening1
+
+            rekening2.setorUang(300000);   // Setor uang ke rekening2
+            rekening2.tarikUang(500000);   // Tarik uang dari rekening2
+            rekening2.tampilkanSaldo();    // Tampilkan saldo rekening2
+
+            rekening3.setorUang(100000);   // Setor uang ke rekening3
+            rekening3.tarikUang(200000);   // Tarik uang dari rekening3
+            rekening3.tampilkanSaldo();    // Tampilkan saldo rekening3
+
+            // Coba buat rekening dengan nomor rekening yang sudah ada (duplikat)
+            const rekeningDuplikat = new RekeningBank("5677356", 200000); // Akan memicu error
+        } catch (error) {
+            console.error(error.message);
+        }
+
+    </script>
+</body>
+</html>
